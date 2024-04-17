@@ -9,6 +9,17 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
+void dumpMe(QObject* obj) {
+    QList<QObject*> list = obj->children();
+    qDebug() << "Total Children Objects = " << list.length() << Qt::endl;
+    for (int i = 0; i < list.length(); i++) {
+        QObject *child = list.at(i);
+        qDebug() << "Name = " << child->objectName();
+        dumpMe(child);
+    }
+    qDebug() << Qt::endl;
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -50,13 +61,7 @@ int main(int argc, char *argv[])
 
     w->show();
 
-    QList<QObject*> list = w->children();
-    qDebug() << "Total Children Objects = " << list.length() << Qt::endl;
-    for (int i = 0; i < list.length(); i++) {
-        QObject *child = list.at(i);
-        qDebug() << "Name = " << child->objectName();
-    }
-    qDebug() << Qt::endl;
+    dumpMe(w);
 
     delete w;
 
